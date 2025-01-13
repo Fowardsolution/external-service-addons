@@ -66,6 +66,13 @@ class ResPartner(models.Model):
             except requests.exceptions.ConnectionError as e:
                 _logger.warning("API requests return the following " "error %s" % e)
                 return {"status": "error", "data": []}
+            if response.status_code != 200:
+                _logger.error(f"Solicitud API falló con estado {response.status_code}: {response.text}")
+                return {"status": "error", "data": []}
+
+            if not response.text.strip():
+                _logger.error("Respuesta vacía recibida del API")
+                return {"status": "error", "data": []}
             try:
                 return json.loads(response.text)
             except TypeError:
