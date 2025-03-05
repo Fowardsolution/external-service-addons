@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="payroll_structure_type_l10n_do" model="hr.payroll.structure.type">
+        <field name="name">Estructura de Nómina RD</field>
+        <field name="country_id" ref="base.do"/>
+    </record>
+    
+    <record id="payroll_structure_l10n_do" model="hr.payroll.structure">
+        <field name="name">Nómina Regular</field>
+        <field name="code">L10N_DO_PAYROLL</field>
+        <field name="type_id" ref="payroll_structure_type_l10n_do"/>
+    </record>
+</odoo>

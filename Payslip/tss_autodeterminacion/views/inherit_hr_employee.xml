@@ -1,0 +1,37 @@
+<odoo>
+    <!-- Herencia de la vista principal del formulario de empleado -->
+    <record id="inherit_hr_employee_form_view" model="ir.ui.view">
+        <field name="name">inherit_hr_employee_form_view</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <!-- Se inserta un nuevo page en el notebook para la información TSS -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Info TSS">
+                    <group>
+                        <field name="nombres"/>
+                        <field name="apellido_paterno"/>
+                        <field name="apellido_materno"/>
+                    </group>
+                    <p>* Si el empleado es extranjero, estos campos son requeridos para el envío de la TSS</p>
+                </page>
+            </xpath>
+            <!-- Se agrega el campo NSS después del identification_id -->
+            <xpath expr="//field[@name='identification_id']" position="after">
+                <field name="nss"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Herencia adicional para incluir el campo de Tipo Nomina -->
+    <record model="ir.ui.view" id="inherit_view_employee_form">
+        <field name="name">Add Tipo Nomina</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr_contract.hr_hr_employee_view_form2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='parent_id']" position="before">
+                <field name="tipo_nomina_id"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

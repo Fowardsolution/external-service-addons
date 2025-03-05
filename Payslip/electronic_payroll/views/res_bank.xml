@@ -1,0 +1,30 @@
+<odoo>
+  <data>
+  
+    <!-- Herencia de la vista de formulario de Bancos -->
+    <record model="ir.ui.view" id="inherit_res_bank_form_view">
+      <field name="name">inherit_res_bank_form_view</field>
+      <field name="model">res.bank</field>
+      <field name="inherit_id" ref="base.view_res_bank_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='bic']" position="after">
+          <field name="bank_code"/>
+          <field name="bank_digi"/>
+        </xpath>
+      </field>
+    </record>
+
+    <!-- Herencia de la vista de formulario de Cuentas Bancarias de Partners -->
+    <record model="ir.ui.view" id="inherit_res_partner_bank_form_view">
+      <field name="name">inherit_res_partner_bank_form_view</field>
+      <field name="model">res.partner.bank</field>
+      <field name="inherit_id" ref="base.view_partner_bank_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='acc_number']" position="after">
+          <field name="account_type"/>
+        </xpath>
+      </field>
+    </record>
+
+  </data>
+</odoo>

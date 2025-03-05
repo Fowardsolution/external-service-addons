@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_tss_report_tags,hr.tss_report.tags,model_hr_tss_report_tags,hr_payroll.group_hr_payroll_user,1,1,1,1
+access_tss_tipo_nomina,tss.tipo_nomina,model_tss_tipo_nomina,hr_payroll.group_hr_payroll_user,1,1,1,1
+access_tss_report_autodeterminacion,hr.tss_report_wizard,model_hr_tss_report_wizard,hr_payroll.group_hr_payroll_user,1,1,1,1
+access_tss_lines_report,hr.tss_report.lines,model_hr_tss_report_lines,hr_payroll.group_hr_payroll_user,1,1,1,1

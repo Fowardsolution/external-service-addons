@@ -1,0 +1,605 @@
+<odoo>
+    <data>
+        <!-- Regla: Salario Basico -->
+        <record id="hr_rule_salary_basic" model="hr.salary.rule">
+            <field name="name">Sueldo Básico</field>
+            <field name="code">BASIC</field>
+            <field name="sequence">10</field>
+            <field name="category_id" ref="salary_rule_category_basic"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">dias_no_trabajados = 0
+for i in inputs:
+    if i == 'DNOT':
+        dias_no_trabajados = inputs[i].amount if i in inputs else 0
+        break
+
+monto_dnot = (contract.wage / 23.83) * dias_no_trabajados
+monto = (contract.wage / 2) - monto_dnot
+
+if payslip.to_force:
+    monto = 0
+
+result = monto
+            </field>
+            <field name="struct_id" ref="payroll_structure_l10n_do"/>
+        </record>
+
+        <!-- Regla: Incentivo -->
+        <record id="hr_rule_salary_incentive" model="hr.salary.rule">
+            <field name="name">Incentivo</field>
+            <field name="code">INC</field>
+            <field name="sequence">20</field>
+            <field name="category_id" ref="salary_rule_category_not_tss"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">inc_amount = 0
+for i in inputs:
+    if i == 'INC':
+        inc_amount = inputs[i].amount if i in inputs else 0
+        break
+
+result = inc_amount
+            </field>
+            <field name="struct_id" ref="payroll_structure_l10n_do"/>
+        </record>
+
+        <!-- Regla: Comision -->
+        <record id="hr_rule_salary_commission" model="hr.salary.rule">
+            <field name="name">Comisión</field>
+            <field name="code">COM</field>
+            <field name="sequence">30</field>
+            <field name="category_id" ref="salary_rule_category_prima"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">comision = 0
+for i in inputs:
+    if i == 'COM':
+        comision = inputs[i].amount if i in inputs else 0
+        break
+
+result = comision
+            </field>
+            <field name="struct_id" ref="payroll_structure_l10n_do"/>
+        </record>
+
+        <!-- Regla: Otros Ingresos -->
+        <record id="hr_rule_salary_income" model="hr.salary.rule">
+            <field name="name">Otros Ingresos</field>
+            <field name="code">OTROING</field>
+            <field name="sequence">40</field>
+            <field name="category_id" ref="salary_rule_category_prima"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">otros_ingresos = 0
+for i in inputs:
+    if i == 'OTROING':
+        otros_ingresos = inputs[i].amount if i in inputs else 0
+        break
+
+result = otros_ingresos
+            </field>
+            <field name="struct_id" ref="payroll_structure_l10n_do"/>
+        </record>
+
+        <!-- Regla: Vacaciones -->
+        <record id="hr_rule_salary_vacation" model="hr.salary.rule">
+            <field name="name">Vacaciones</field>
+            <field name="code">VACA</field>
+            <field name="sequence">50</field>
+            <field name="category_id" ref="salary_rule_category_prima"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">vacaciones = 0
+for i in inputs:
+    if i == 'VACA':
+        vacaciones = inputs[i].amount if i in inputs else 0
+        break
+
+result = vacaciones
+            </field>
+            <field name="struct_id" ref="payroll_structure_l10n_do"/>
+        </record>
+
+        <!-- Regla: Bonificacion -->
+        <record id="hr_rule_salary_bonus" model="hr.salary.rule">
+            <field name="name">Bonificación</field>
+            <field name="code">BONO</field>
+            <field name="sequence">60</field>
+            <field name="category_id" ref="salary_rule_category_not_tss"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">bonificacion = 0
+for i in inputs:
+    if i == 'BONO':
+        bonificacion = inputs[i].amount if i in inputs else 0
+        break
+
+result = bonificacion
+            </field>
+            <field name="struct_id" ref="payroll_structure_l10n_do"/>
+        </record>
+
+        <!-- Regla: Horas Extras Diurnas al 35% -->
+        <record id="hr_rule_salary_he35" model="hr.salary.rule">
+            <field name="name">Horas Extras Diurnas al 35%</field>
+            <field name="code">HE35</field>
+            <field name="sequence">70</field>
+            <field name="category_id" ref="salary_rule_category_he"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">he35 = 0
+for i in inputs:
+    if i == 'HE35':
+        he35 = inputs[i].amount if i in inputs else 0
+        break
+
+# Salario Diario
+sal_dia = contract.wage / 23.83
+        
+# Horas Ordinarias de Trabajo
+hora_ord = sal_dia / 8
+        
+result_qty = he35
+result = (hora_ord * 1.35) * he35
+            </field>
+            <field name="struct_id" ref="payroll_structure_l10n_do"/>
+        </record>
+
+        <!-- Regla: Horas Extras Nocturnas 35+15% -->
+        <record id="hr_rule_salary_hen35" model="hr.salary.rule">
+            <field name="name">Horas Extras Nocturnas 35+15%</field>
+            <field name="code">HEN35</field>
+            <field name="sequence">80</field>
+            <field name="category_id" ref="salary_rule_category_he"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">hen35 = 0
+for i in inputs:
+    if i == 'HEN35':
+        hen35 = inputs[i].amount if i in inputs else 0
+        break
+
+# Salario Diario
+sal_dia = contract.wage / 23.83
+
+# Horas Ordinarias de Trabajo
+hora_ord = sal_dia / 8
+
+result_qty = hen35
+result = (hora_ord * 1.50) * hen35
+            </field>
+            <field name="struct_id" ref="payroll_structure_l10n_do"/>
+        </record>
+
+        <!-- Regla: Horas Extras Diurnas Ext. 100% -->
+        <record id="hr_rule_salary_he100" model="hr.salary.rule">
+            <field name="name">Horas Extras Diurnas Ext. 100%</field>
+            <field name="code">HE100</field>
+            <field name="sequence">90</field>
+            <field name="category_id" ref="salary_rule_category_he"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">he100 = 0
+for i in inputs:
+    if i == 'HE100':
+        he100 = inputs[i].amount if i in inputs else 0
+        break
+
+# Salario Diario
+sal_dia = contract.wage / 23.83
+        
+# Horas Ordinarias de Trabajo
+hora_ord = sal_dia / 8
+
+result_qty = he100
+result = (hora_ord * 2) * he100
+            </field>
+            <field name="struct_id" ref="payroll_structure_l10n_do"/>
+        </record>
+
+        <!-- Regla: Total Horas Extras -->
+        <record id="hr_rule_salary_he" model="hr.salary.rule">
+            <field name="name">Total Horas Extras</field>
+            <field name="code">TOTAL_OT</field>
+            <field name="sequence">100</field>
+            <field name="category_id" ref="salary_rule_category_not_tss"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">he35 = 0
+he100 = 0
+hen35 = 0
+
+for i in inputs:
+    if i == 'HE35':
+        he35 = inputs[i].amount if i in inputs else 0
+    elif i == 'HE100':
+        he100 = inputs[i].amount if i in inputs else 0
+    elif i == 'HEN35':
+        hen35 = inputs[i].amount if i in inputs else 0
+
+result = he35 + he100 + hen35
+            </field>
+            <field name="struct_id" ref="payroll_structure_l10n_do"/>
+        </record>
+
+        <!-- Regla: BRUTO -->
+        <record id="hr_rule_salary_gross" model="hr.salary.rule">
+            <field name="name">Bruto</field>
+            <field name="code">GROSS</field>
+            <field name="sequence">110</field>
+            <field name="category_id" ref="salary_rule_category_gross"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = categories.BASIC + categories.ALW + categories.INT + categories.INIT
+            </field>
+            <field name="struct_id" ref="payroll_structure_l10n_do"/>
+        </record>
+
+        <!-- Regla: Dependiente Adicionales -->
+        <record id="hr_rule_salary_depad" model="hr.salary.rule">
+            <field name="name">Dependiente Adicionales</field>
+            <field name="code">DEPAD</field>
+            <field name="sequence">120</field>
+            <field name="category_id" ref="salary_rule_category_deduction"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">depad = 0
+for i in inputs:
+    if i == 'DEPAD':
+        depad = inputs[i].amount if i in inputs else 0
+        break
+
+result = depad
+            </field>
+            <field name="struct_id" ref="payroll_structure_l10n_do"/>
+        </record>
+
+        <!-- Regla: Otros Descuentos -->
+        <record id="hr_rule_salary_otherdesc" model="hr.salary.rule">
+            <field name="name">Otros Descuentos</field>
+            <field name="code">OTRODESC</field>
+            <field name="sequence">130</field>
+            <field name="category_id" ref="salary_rule_category_deduction"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">otrodesc = 0
+for i in inputs:
+    if i == 'OTRODESC':
+        otrodesc = inputs[i].amount if i in inputs else 0
+        break
+
+result = otrodesc
+            </field>
+            <field name="struct_id" ref="payroll_structure_l10n_do"/>
+        </record>
+
+        <!-- Regla: Fondo de Penciones -->
+        <record id="hr_rule_salary_afp" model="hr.salary.rule">
+            <field name="name">Fondo de Penciones</field>
+            <field name="code">AFP</field>
+            <field name="sequence">140</field>
+            <field name="category_id" ref="salary_rule_category_tss"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"># Obtener la fecha de inicio del periodo
+fecha_inicio = str(payslip.date_from)
+dia = int(fecha_inicio[8:10])
+
+if dia >= 16:
+    # Segunda quincena: se toma desde el día 16
+    date_from = '%s/%s/16' % (fecha_inicio[0:4], fecha_inicio[5:7])
+else:
+    # Primera quincena: se toma desde el día 01
+    date_from = '%s/%s/01' % (fecha_inicio[0:4], fecha_inicio[5:7])
+
+# Obtener date_to; en caso de error, usar fecha_inicio
+try:
+    date_to = str(payslip.date_to)
+except Exception:
+    date_to = fecha_inicio
+
+# Tope de cotización
+tope = 387050.00
+
+# Calcular ingresos sujetos a AFP
+ingresos = categories.BASIC
+
+# Sumar categorías de ingreso relevantes
+for code in ["ALW", "BASIC", "COM", "VACA", "BONO", "OTROING"]:
+    ingresos += payslip.sum(code, date_from, date_to)
+
+# AFP acumulado en el mes
+afp_anterior = payslip.sum("AFP", date_from, date_to)
+
+# Aplicar la tasa del 2.87%
+if ingresos > tope:
+    result = (tope * 0.0287) - afp_anterior
+else:
+    result = (ingresos * 0.0287) - afp_anterior
+            </field>
+            <field name="struct_id" ref="payroll_structure_l10n_do"/>
+        </record>
+
+        <!-- Regla: Fondo de Penciones [Company] -->
+        <record id="hr_rule_salary_afpcomp" model="hr.salary.rule">
+            <field name="name">Fondo de Penciones [Company]</field>
+            <field name="code">AFPAE</field>
+            <field name="sequence">150</field>
+            <field name="category_id" ref="salary_rule_category_company"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"># Tope de cotización AFP
+tope = 387050.00
+
+# Obtener la fecha de inicio del periodo
+fecha_inicio = str(payslip.date_from)
+dia = int(fecha_inicio[8:10])
+
+if dia >= 16:
+    # Segunda quincena: se toma desde el día 16
+    date_from = '%s/%s/16' % (fecha_inicio[0:4], fecha_inicio[5:7])
+else:
+    # Primera quincena: se toma desde el día 01
+    date_from = '%s/%s/01' % (fecha_inicio[0:4], fecha_inicio[5:7])
+
+# Obtener date_to; en caso de error, usar fecha_inicio
+try:
+    date_to = str(payslip.date_to)
+except Exception:
+    date_to = fecha_inicio
+
+# Calcular ingresos sujetos a AFP
+ingresos = categories.ALW + categories.BASIC
+
+# Sumar categorías de ingreso relevantes
+for code in ["BASIC", "COM", "VACA", "BONO", "OTROING"]:
+    ingresos += payslip.sum(code, date_from, date_to)
+
+# AFP acumulado en el mes para la empresa
+afp_anterior = payslip.sum("AFPAE", date_from, date_to)
+
+# Aplicar la tasa del 7.10% (Contribución Compañía)
+if ingresos > tope:
+    result = (tope * 0.0710) - afp_anterior
+else:
+    result = (ingresos * 0.0710) - afp_anterior    
+            </field>
+            <field name="struct_id" ref="payroll_structure_l10n_do"/>
+        </record>
+
+        <!-- Regla: Seguro Familiar de Salud -->
+        <record id="hr_rule_salary_sfs" model="hr.salary.rule">
+            <field name="name">Seguro Familiar de Salud</field>
+            <field name="code">SFS</field>
+            <field name="sequence">160</field>
+            <field name="category_id" ref="salary_rule_category_tss"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"># Tope de cotización para Seguro Familiar de Salud
+tope = 193525.00
+
+# Obtener la fecha de inicio del periodo
+fecha_inicio = str(payslip.date_from)
+dia = int(fecha_inicio[8:10])
+
+if dia >= 16:
+    # Segunda quincena: se toma desde el día 16
+    date_from = '%s/%s/16' % (fecha_inicio[0:4], fecha_inicio[5:7])
+else:
+    # Primera quincena: se toma desde el día 01
+    date_from = '%s/%s/01' % (fecha_inicio[0:4], fecha_inicio[5:7])
+
+# Obtener date_to; en caso de error, usar fecha_inicio
+try:
+    date_to = str(payslip.date_to)
+except Exception:
+    date_to = fecha_inicio
+
+# Calcular ingresos sujetos a SFS
+ingresos = categories.ALW + categories.BASIC
+
+# Sumar categorías de ingreso relevantes
+for code in ["BASIC", "COM", "VACA", "BONO", "OTROING"]:
+    ingresos += payslip.sum(code, date_from, date_to)
+
+# SFS acumulado en el mes
+sfs_anterior = payslip.sum("SFS", date_from, date_to)
+
+# Aplicar la tasa del 3.04% (Seguro de Salud)
+if ingresos > tope:
+    result = (tope * 0.0304) - sfs_anterior
+else:
+    result = (ingresos * 0.0304) - sfs_anterior
+            </field>
+            <field name="struct_id" ref="payroll_structure_l10n_do"/>
+        </record>
+
+        <!-- Regla: Seguro Familiar de Salud [Company] -->
+        <record id="hr_rule_salary_sfscomp" model="hr.salary.rule">
+            <field name="name">Seguro Familiar de Salud [Company]</field>
+            <field name="code">SFSAE</field>
+            <field name="sequence">170</field>
+            <field name="category_id" ref="salary_rule_category_company"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"># Tope de cotización para Seguro Familiar de Salud Compañía
+tope = 193525.00
+
+# Obtener la fecha de inicio del periodo
+fecha_inicio = str(payslip.date_from)
+dia = int(fecha_inicio[8:10])
+
+if dia >= 16:
+    # Segunda quincena: se toma desde el día 16
+    date_from = '%s/%s/16' % (fecha_inicio[0:4], fecha_inicio[5:7])
+else:
+    # Primera quincena: se toma desde el día 01
+    date_from = '%s/%s/01' % (fecha_inicio[0:4], fecha_inicio[5:7])
+
+# Obtener date_to; en caso de error, usar fecha_inicio
+try:
+    date_to = str(payslip.date_to)
+except Exception:
+    date_to = fecha_inicio
+
+# Calcular ingresos sujetos a SFSAE
+ingresos = categories.ALW + categories.BASIC
+
+# Sumar categorías de ingreso relevantes
+for code in ["BASIC", "COM", "VACA", "BONO", "OTROING"]:
+    ingresos += payslip.sum(code, date_from, date_to)
+
+# SFSAE acumulado en el mes
+sfs_anterior = payslip.sum("SFSAE", date_from, date_to)
+
+# Aplicar la tasa del 7.09% (Seguro de Salud Compañía)
+if ingresos > tope:
+    result = (tope * 0.0709) - sfs_anterior
+else:
+    result = (ingresos * 0.0709) - sfs_anterior
+            </field>
+            <field name="struct_id" ref="payroll_structure_l10n_do"/>
+        </record>
+
+        <!-- Regla: Infotep [Company] -->
+        <record id="hr_rule_salary_infotep" model="hr.salary.rule">
+            <field name="name">Infotep [Company]</field>
+            <field name="code">INFOTEP</field>
+            <field name="sequence">180</field>
+            <field name="category_id" ref="salary_rule_category_company"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"># Base salarial para INFOTEP: Salario básico + Asignaciones
+base_infotep = categories.BASIC + categories.ALW
+
+# Aplicar tasa del 1% sobre la base salarial
+result = base_infotep * 0.01
+            </field>
+            <field name="struct_id" ref="payroll_structure_l10n_do"/>
+        </record>
+
+        <!-- Regla: Riesgo Laboral [Company] -->
+        <record id="hr_rule_salary_rlae" model="hr.salary.rule">
+            <field name="name">Riesgo Laboral [Company]</field>
+            <field name="code">RLAE</field>
+            <field name="sequence">190</field>
+            <field name="category_id" ref="salary_rule_category_company"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"># Base salarial para Riesgo Laboral: Salario básico + Asignaciones
+base_riesgo = categories.BASIC + categories.ALW
+
+# Aplicar tasa del 1.15% sobre la base salarial
+result = base_riesgo * 0.0115
+            </field>
+            <field name="struct_id" ref="payroll_structure_l10n_do"/>
+        </record>
+
+        <!-- Regla: Impuesto Sobre la Renta -->
+        <record id="hr_rule_salary_isr" model="hr.salary.rule">
+            <field name="name">Impuesto Sobre la Renta</field>
+            <field name="code">ISR</field>
+            <field name="sequence">200</field>
+            <field name="category_id" ref="salary_rule_category_isr"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"># Obtener la fecha de inicio del periodo
+fecha_inicio = str(payslip.date_from)
+dia = int(fecha_inicio[8:10])
+
+if dia >= 16:
+    # Segunda quincena: se toma desde el día 16
+    date_from = '%s/%s/16' % (fecha_inicio[0:4], fecha_inicio[5:7])
+else:
+    # Primera quincena: se toma desde el día 01
+    date_from = '%s/%s/01' % (fecha_inicio[0:4], fecha_inicio[5:7])
+
+# Obtener date_to; en caso de error, usar fecha_inicio
+try:
+    date_to = str(payslip.date_to)
+except Exception:
+    date_to = fecha_inicio
+
+# Topes de deducción SFS y AFP
+tope_sfs = 193525.00
+tope_afp = 387050.00
+
+# Cálculo de ingresos sujetos a SFS
+ingresos_sfs = categories.BASIC + categories.ALW
+ingresos_sfs += payslip.sum("BASIC", date_from, date_to)
+ingresos_sfs += payslip.sum("COM", date_from, date_to)
+ingresos_sfs += payslip.sum("VACA", date_from, date_to)
+ingresos_sfs += payslip.sum("BONO", date_from, date_to)
+
+# Cálculo de deducción SFS
+sfs_anterior = payslip.sum("SFS", date_from, date_to)
+result_sfs = ((ingresos_sfs * 0.0304) - sfs_anterior) if ingresos_sfs ///= tope_sfs else ((tope_sfs * 0.0304) - sfs_anterior)
+
+# Cálculo de ingresos sujetos a AFP
+ingresos_afp = ingresos_sfs  # Mismos ingresos para AFP
+afp_anterior = payslip.sum("AFP", date_from, date_to)
+result_afp = ((ingresos_afp * 0.0287) - afp_anterior) if ingresos_afp ///= tope_afp else ((tope_afp * 0.0287) - afp_anterior)
+
+# Cálculo de ISR
+vaca = inputs.VACA.amount if 'VACA' in inputs else 0
+
+# Valores de la nómina actual
+ingresos = categories.BASIC * 2
+if vaca > 0:
+    ingresos = categories.BASIC
+ingresos += categories.ALW
+ingreso_tss = categories.INT
+    
+# Deducciones TSS (AFP + SFS)
+tss = (result_afp + result_sfs) * 2
+
+# Dependientes adicionales
+dependientes = payslip.sum('DEPAD', date_from, date_to) + (inputs.DEPAD.amount if 'DEPAD' in inputs else 0)
+dep = dependientes * 2
+
+# Saldo a favor ISR
+saldo_a_favor_isr = payslip.sum('SFISR', date_from, date_to) + (inputs.SFISR.amount if 'SFISR' in inputs else 0)
+
+# Deducción mensual y anual
+deducible_mensual = ((ingresos - tss) - dep) + ingreso_tss
+deducible_anual = deducible_mensual * 12
+
+# Topes para cálculo ISR anual/mensual
+tope_mayor_anual, tope_medio_anual, tope_minimo_anual = 867123.01, 624329.01, 416220.01
+tope_mayor_mensual, tope_medio_mensual, tope_minimo_mensual = tope_mayor_anual / 12, tope_medio_anual / 12, tope_minimo_anual / 12
+
+# Cálculo del ISR según los rangos de ingreso
+if deducible_mensual >= tope_mayor_mensual:
+    result = ((((deducible_mensual - tope_mayor_mensual) * 0.25) + (79776 / 12)) / 2) - saldo_a_favor_isr
+elif deducible_mensual >= tope_medio_mensual:
+    result = ((((deducible_mensual - tope_medio_mensual) * 0.20) + (31216 / 12)) / 2) - saldo_a_favor_isr
+elif deducible_mensual >= tope_minimo_mensual:
+    result = (((deducible_mensual - tope_minimo_mensual) * 0.15) / 2) - saldo_a_favor_isr
+else:
+    result = 0
+            </field>
+            <field name="struct_id" ref="payroll_structure_l10n_do"/>
+        </record>
+
+        <!-- Regla: Salario Neto -->
+        <record id="hr_rule_salary_net" model="hr.salary.rule">
+            <field name="name">Salario Neto</field>
+            <field name="code">NET</field>
+            <field name="sequence">300</field>
+            <field name="category_id" ref="salary_rule_category_net"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"># Cálculo del Salario Neto
+gross = categories.GROSS if 'GROSS' in categories else 0
+deductions = categories.DED if 'DED' in categories else 0
+isr = categories.ISR if 'ISR' in categories else 0
+tss = categories.TSS if 'TSS' in categories else 0
+
+# Cálculo final
+result = gross - (deductions + isr + tss)
+            </field>
+            <field name="struct_id" ref="payroll_structure_l10n_do"/>
+        </record>
+    </data>
+</odoo>

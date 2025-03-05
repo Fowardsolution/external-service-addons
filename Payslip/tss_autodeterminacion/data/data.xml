@@ -1,0 +1,44 @@
+<odoo>
+    <data noupdate="1">
+    <record id="salario_cotizable_tag" model="hr.tss_report.tags">
+        <field name="name">Salario Cotizable</field>
+        <field name="code">salario_cotizable</field>
+        <field name="sequence">1</field>
+    </record>
+    <record id="aporte_voluntario_tag" model="hr.tss_report.tags">
+        <field name="name">Aporte Voluntario</field>
+        <field name="code">aporte_voluntario</field>
+        <field name="sequence">2</field>
+    </record>
+    <record id="salario_isr_tag" model="hr.tss_report.tags">
+        <field name="name">Salario ISR</field>
+        <field name="code">salario_isr</field>
+        <field name="sequence">3</field>
+    </record>
+    <record id="otro_remuneracion_tag" model="hr.tss_report.tags">
+        <field name="name">Otras Remuneraciones</field>
+        <field name="code">otro_remuneracion</field>
+        <field name="sequence">4</field>
+    </record>
+    <record id="rem_otro_agentes_tag" model="hr.tss_report.tags">
+        <field name="name">Remuneracion Otros Agentes</field>
+        <field name="code">rem_otro_agentes</field>
+        <field name="sequence">5</field>
+    </record>
+    <record id="ing_exentos_tag" model="hr.tss_report.tags">
+        <field name="name">Ingresos Exentos del Periodo</field>
+        <field name="code">ing_exentos</field>
+        <field name="sequence">6</field>
+    </record>
+    <record id="saldo_favor_tag" model="hr.tss_report.tags">
+        <field name="name">Saldo a Favor del Periodo</field>
+        <field name="code">saldo_favor</field>
+        <field name="sequence">7</field>
+    </record>
+    <record id="infotep_tag" model="hr.tss_report.tags">
+        <field name="name">Infotep</field>
+        <field name="code">infotep</field>
+        <field name="sequence">8</field>
+    </record>
+    </data>
+</odoo>

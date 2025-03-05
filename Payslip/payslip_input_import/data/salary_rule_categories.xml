@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Categoría: Básico -->
+        <record id="salary_rule_category_basic" model="hr.salary.rule.category">
+            <field name="name">Básico</field>
+            <field name="code">BASIC</field>
+        </record>
+
+        <!-- Categoría: Prima -->
+        <record id="salary_rule_category_prima" model="hr.salary.rule.category">
+            <field name="name">Prima</field>
+            <field name="code">ALW</field>
+        </record>
+
+        <!-- Categoría: Bruto -->
+        <record id="salary_rule_category_gross" model="hr.salary.rule.category">
+            <field name="name">Bruto</field>
+            <field name="code">GROSS</field>
+        </record>
+
+        <!-- Categoría: Deducciones -->
+        <record id="salary_rule_category_deduction" model="hr.salary.rule.category">
+            <field name="name">Deducción</field>
+            <field name="code">DED</field>
+        </record>
+
+        <!-- Categoría: Contribucion compañia -->
+        <record id="salary_rule_category_company" model="hr.salary.rule.category">
+            <field name="name">Contribución compañia</field>
+            <field name="code">COMP</field>
+        </record>
+        
+        <!-- Categoría: Ingresos no Cotizables TSS -->
+        <record id="salary_rule_category_not_tss" model="hr.salary.rule.category">
+            <field name="name">Ingresos no Cotizables TSS</field>
+            <field name="code">INT</field>
+        </record>
+
+        <!-- Categoría: Ingreso no Afecta (TSS e ISR) -->
+        <record id="salary_rule_category_not_tss_isr" model="hr.salary.rule.category">
+            <field name="name">Ingreso no Afecta (TSS e ISR)</field>
+            <field name="code">INIT</field>
+        </record>
+
+        <!-- Categoría: Retenciones Tributarias Deducibles (TSS) -->
+        <record id="salary_rule_category_tss" model="hr.salary.rule.category">
+            <field name="name">Retenciones Tributarias Deducibles (TSS)</field>
+            <field name="code">TSS</field>
+        </record>
+
+        <!-- Categoría: Retenciones Tributarias (ISR) -->
+        <record id="salary_rule_category_isr" model="hr.salary.rule.category">
+            <field name="name">Retenciones Tributarias (ISR)</field>
+            <field name="code">ISR</field>
+        </record>
+
+        <!-- Categoría: Horas Extras -->
+        <record id="salary_rule_category_he" model="hr.salary.rule.category">
+            <field name="name">Horas Extras</field>
+            <field name="code">HE</field>
+        </record>
+
+        <!-- Categoría: NETO -->
+        <record id="salary_rule_category_net" model="hr.salary.rule.category">
+            <field name="name">Neto</field>
+            <field name="code">NET</field>
+        </record>
+    </data>
+</odoo>

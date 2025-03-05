@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="form_export_payslip_batches_details_xls_dev_payslip_batch_report_pdf_xls" model="ir.ui.view">
+        <field name="name">form_export_payslip_batches_details_xls_dev_payslip_batch_report_pdf_xls_name</field>
+        <field name="model">export.payslip.batches.details.xls</field>
+        <field name="arch" type="xml">
+            <form string="Reporte Nomina">
+                <ul>
+                    <li>
+                        Click en
+                        <b>Excel</b>
+                        para descargar reporte en Excel
+                    </li>
+                    <li>
+                        Click en
+                        <b>Close</b>
+                        para cerrar ventana
+                    </li>
+                </ul>
+                <footer>
+                    <button string=" Excel"
+                            name="print_excel"
+                            type="object"
+                            class="oe_highlight"
+                            icon="fa-file-excel-o"/>
+                    o
+                    <button string="Close" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_export_payslip_batches_details_xls_dev_payslip_batch_report_pdf_xls">
+        <field name="name">Reporte Nomina</field>
+        <field name="res_model">export.payslip.batches.details.xls</field>
+        <field name="binding_model_id" ref="hr_payroll.model_hr_payslip_run"/>
+        <field name="binding_view_types">list</field>
+        <field name="binding_type">action</field>
+        <field name="target">new</field>
+        <field name="context">{'default_payslip_batches_ids' : active_ids}</field>
+        <field name="view_id" ref="form_export_payslip_batches_details_xls_dev_payslip_batch_report_pdf_xls"/>
+    </record>
+</odoo>

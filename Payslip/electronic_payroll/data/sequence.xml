@@ -1,0 +1,12 @@
+<odoo>
+  <data noupdate="1">
+    <!-- Secuencia para Nómina Electrónica -->
+    <record id="seq_electronic_payroll" model="ir.sequence">
+      <field name="name">Electronic Payroll</field>
+      <field name="code">EP</field>
+      <field name="prefix"></field>
+      <field name="padding">7</field>
+      <field name="company_id" eval="False"/>
+    </record>
+  </data>
+</odoo>

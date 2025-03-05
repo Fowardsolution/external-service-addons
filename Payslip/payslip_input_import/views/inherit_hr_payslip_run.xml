@@ -1,0 +1,30 @@
+<odoo>
+    <data>
+        <record id="inherit_hr_payslip_run_form" model="ir.ui.view">
+            <field name="name">inherit_hr_payslip_run_form</field>
+            <field name="model">hr.payslip.run</field>
+            <field name="inherit_id" ref="hr_payroll.hr_payslip_run_form"/>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_open_payslips']" position="after">
+                    <button name="remove_slips" string="Eliminar Líneas"
+                            class="oe_stat_button"
+                            icon="fa-trash" type="object"
+                            help="Eliminar Nóminas en Borrador/Canceladas"/>
+                </xpath>
+
+                <field name="state" position="before">
+                    <button name="verify_payslips" string="Confirmar Nóminas"
+                            type="object" icon="fa-check"/>
+                    
+                    <button name="re_calculate" string="ReCalcular Nóminas"
+                            type="object" icon="fa-refresh"/>
+                </field>
+
+                <xpath expr="//button[@name='action_draft']" position="attributes">
+                    <attribute name="invisible">0</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

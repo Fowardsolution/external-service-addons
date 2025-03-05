@@ -1,0 +1,19 @@
+<odoo>
+  <data>
+    <record id="inherit_view_hr_payslip_form" model="ir.ui.view">
+        <field name="name">inherit_view_hr_payslip_form</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='compute_sheet']" position="after">
+                <button name="refresh_inputs" string="Refrescar Novedades"
+                        type="object" icon="fa-refresh"/>
+            </xpath>
+            <xpath expr="//field[@name='credit_note']" position="after">
+                <field name="apply_on"/>
+            </xpath>
+        </field>
+    </record>
+  </data>
+</odoo>
+

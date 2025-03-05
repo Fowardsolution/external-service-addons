@@ -1,0 +1,80 @@
+<odoo>
+    <data>
+        <record id="payslip_input_import_tree_view" model="ir.ui.view">
+            <field name="name">payslip_input_import_tree_view</field>
+            <field name="model">payslip.input.import</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="employee_id"/>
+                    <field name="input_id"/>
+                    <field name="amount"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <field name="company_id"/>
+                </tree>
+            </field>
+        </record>
+        <record id="payslip_input_import_form_view" model="ir.ui.view">
+            <field name="name">payslip_input_import_form_view</field>
+            <field name="model">payslip.input.import</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div>
+                            <label for="employee_id" class="oe_edit_only"/>
+                            <h2>
+                                <field name="employee_id" options="{'no_create': True, 'no_quick_create': True, 'no_create_edit': True}"/>
+                            </h2>
+                            <field name="name" invisible="1"/>
+                        </div>
+                        <group>
+                            <field name="active" class="oe_edit_only"/>
+                        </group>
+                        <group string="Concepto">
+                            <group>
+                                <field name="input_id" required="1" options="{'no_create': True, 'no_quick_create': True, 'no_create_edit': True}"/>
+                                <field name="code" readonly="1"/>
+                                <field name="company_id"/>
+                            </group>
+                            <group>
+                                <field name="amount" required="1"/>
+                                <field name="to_force"/>
+                                <field name="frecuency_type"/>
+                                <field name="apply_on"/>
+                            </group>
+                        </group>
+                        <group>
+                            <div class="oe_row">
+                                <label for="notes"/>
+                                <field name="notes" nolabel="1" placeholder="Descripción . . ."/>
+                            </div>
+                            <group string="Periodo">
+                                <field name="start_date"/>
+                                <field name="frecuency_number"/>
+                                <small>La fecha de término será calculada automáticamente.</small>
+                                <newline/>
+                                <field name="end_date"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="payslip_input_import.action_window">
+            <field name="name">Novedades</field>
+            <field name="res_model">payslip.input.import</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Haga clic para crear una novedad a un Empleado.</p>
+            </field>
+        </record>
+<!--        <menuitem name="Novedades" id="payslip_input_import.root"
+                  parent="hr_payroll.menu_hr_payroll_root"/> -->
+        <menuitem name="Novedades Empleados" id="payslip_input_import.menu_1"
+                  parent="hr_work_entry_contract_enterprise.menu_hr_payroll_root"
+                  sequence="55"
+                  action="payslip_input_import.action_window"/>
+    </data>
+</odoo>
