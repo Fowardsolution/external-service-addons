@@ -10,13 +10,13 @@
                     <button name="generate_report" string="Generate Statements"
                             type="object"
                             class="oe_highlight"
-                            attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                            invisible="state != 'draft'"/>
                     <button name="generate_report" string="Generate Statements"
                             type="object"
-                            attrs="{'invisible': [('state', '!=', 'generated')]}"/>
+                            invisible="state != 'generated'"/>
                     <button name="state_sent" string="Set as sent" type="object"
                             class="oe_highlight"
-                            attrs="{'invisible': [('state', '!=', 'generated')]}"/>
+                            invisible="state != 'generated'"/>
                     <field name="state" widget="statusbar"
                            statusbar_visible="draft,generated,sent"/>
                 </header>
@@ -30,7 +30,7 @@
                             </div>
                         </group>
                         <field name="previous_report_pending" invisible="1"/>
-                        <group attrs="{'invisible': [('previous_report_pending', '=', False)]}">
+                        <group invisible="not previous_report_pending">
                             <div class="alert alert-warning info_icon"  role="alert" colspan="2">
                                 <span class="fa fa-lightbulb-o fa-lg"  title="Info" aria-label="Info"/>
                                 <p>The previous report is still not marked as
@@ -45,8 +45,7 @@
                     </group>
                     <group>
                         <group>
-                            <field name="name" placeholder="MM/YYYY"
-                                   attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="name" placeholder="MM/YYYY" readonly="state != 'draft'"/>
                             <field name="previous_balance" readonly="1" invisible="1"/>
                         </group>
                     </group>
