@@ -1,0 +1,22 @@
+# Ignorar archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Ignorar carpetas de dependencias
+node_modules/
+venv/
+__pycache__/
+*.pyc
+
+
+# Ignorar archivos compilados
+*.o
+*.out
+*.log
+
+# Ignorar credenciales y configuraciones personales
+.env
+config.json
+
+# Ignorar archivos de compilación en macOS y Linux
+*.swp
