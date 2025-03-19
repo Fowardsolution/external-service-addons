@@ -13,7 +13,7 @@
     'author': "My Company",
     'website': "https://www.yourcompany.com",
     'category': 'Uncategorized',
-    'version': '16.0.0.0.1',
+    'version': '17.0.0.0.1',
 
     # any module necessary for this one to work correctly
     'depends': ['account_reports', 'account'],

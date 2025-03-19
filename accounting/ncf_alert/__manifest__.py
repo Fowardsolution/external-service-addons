@@ -13,7 +13,7 @@
     'author': "isias1626@gmail.com",
     'website': "http://www.yourcompany.com",
     'category': 'Uncategorized',
-    'version': '16.0.0.0.2',
+    'version': '17.0.0.0.1',
     'depends': ['base', 'account', 'l10n_do_accounting', 'mail'],
     'data': [
         'security/ir.model.access.csv',

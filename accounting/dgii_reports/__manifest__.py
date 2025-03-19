@@ -18,7 +18,7 @@
               "Foward Solution SRL"
     'license': 'LGPL-3',
     'category': 'Accounting',
-    'version': '16.0.1.1.1',
+    'version': '17.0.0.0.1',
 
     # any module necessary for this one to work correctly
     'depends': ['base', 'l10n_do_accounting'],
