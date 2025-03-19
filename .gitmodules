@@ -1,0 +1,4 @@
+[submodule "external-service-addons"]
+	path = external-service-addons
+	url = git@github.com:Fowardsolution/external-service-addons.git
+	branch = 16.0

@@ -1,0 +1,51 @@
+<odoo>
+  <data>
+      <record id="l10n_do_sequence_view_tree" model="ir.ui.view">
+        <field name="name">l10n_do_sequence_view_tree</field>
+        <field name="model">l10n.sequence.max</field>
+        <field name="arch" type="xml">
+            <tree string="Sequence Max">
+                <field name="document_type_id"/> 
+                <field name="company_id"/>
+                <field name="max"/>
+                <field name="max_alert"/>
+                <field name="user_id"/>
+            </tree>
+          </field>
+      </record>
+      
+      <record id="l10n_do_sequence_view_form" model="ir.ui.view">
+        <field name="name">l10n_do_sequence_view_form</field>
+        <field name="model">l10n.sequence.max</field>
+        <field name="arch" type="xml">
+            <form string="sequence_form">
+                <sheet>
+                    <group>
+                        <field name="document_type_id"/>
+                    </group>
+                    <group><field name="company_id"/></group>
+                     <group> <field name="max"/></group>
+                     <group> <field name="max_alert"/></group>
+                     <group> <field name="user_id" string="Usuario Aviso"/></group>
+                    
+                       
+                </sheet>
+            </form>
+        </field>
+    </record>
+      
+      <record id="sequence_action" model="ir.actions.act_window">
+                <field name="name">sequence_action_name</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">l10n.sequence.max</field>
+                <field name="view_mode">tree,form</field>
+            </record>
+      
+      <menuitem id="l10n_do_sequence_inherit_root" name="menu_root" />
+      <menuitem id="sequence_menu" 
+                name="Secuencia maxima" 
+                parent="account.account_account_menu"
+                action="sequence_action"
+                sequence="21"/>
+  </data>
+</odoo>
