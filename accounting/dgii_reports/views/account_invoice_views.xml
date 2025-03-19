@@ -21,7 +21,7 @@
             <xpath expr="//field[@name='payment_reference']" position="before">
                 <field name="is_exterior" invisible="1"/>
                 <field name="service_type" invisible="move_type not in ('in_invoice', 'in_refund') or not is_exterior" required="is_exterior"/>
-                <field name="service_type_detail" options="{'no_create': True, 'no_open': True}" domain="[('id', 'in', available_service_type_detail)]" invisible="move_type not in ('in_invoice', 'in_refund') or not is_exterior" readonly="not service_type" required="service_type != False"/>
+                <field name="service_type_detail" options="{'no_create': True, 'no_open': True}" invisible="move_type not in ('in_invoice', 'in_refund') or not is_exterior" readonly="not service_type" required="service_type != False"/>
             </xpath>
             <xpath expr="//page[@name='other_info']" position="after">
                 <page name="dgii_fields" string="DGII" groups="account.group_account_user" invisible="move_type not in ('out_invoice', 'out_refund')">
