@@ -604,7 +604,7 @@ class DgiiReport(models.Model):
 
         currency_id = base_currency.with_context(date=date)
         round_curr = currency_id.round
-        amount_converted = round_curr(currency_id.compute(amount, company_id.currency_id))
+        amount_converted = round_curr(currency_id._convert(amount, company_id.currency_id, company_id, date))
 
         #return abs(base_currency_id.with_context(ctx)._convert(amount, user_currency_id, company_id, date))
         return abs(amount_converted)

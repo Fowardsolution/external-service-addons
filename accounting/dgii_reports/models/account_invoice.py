@@ -90,19 +90,19 @@ class AccountMove(models.Model):
             if inv.state != 'draft' and tax_line_ids:
                 for line in tax_line_ids:
                     inv.invoiced_itbis = abs(sum(line.filtered(
-                        lambda t: t.tax_group_id == self.env.ref("l10n_do.group_itbis")).mapped('balance')
+                        lambda t: t.tax_group_id == self.env.ref("account.1_tax_group_itbis")).mapped('balance')
                                                  ))
 
                     inv.selective_tax = abs(sum(line.filtered(
-                        lambda t: t.tax_group_id == self.env.ref("l10n_do.tax_group_isc")).mapped('balance')
+                        lambda t: t.tax_group_id == self.env.ref("account.1_tax_group_isc")).mapped('balance')
                                                 ))
                     inv.other_taxes = abs(sum(
                         line.filtered(
-                            lambda t: t.tax_group_id == self.env.ref("l10n_do.group_tax")).mapped('balance')
+                            lambda t: t.tax_group_id == self.env.ref("account.1_tax_group_other_tax")).mapped('balance')
                     ))
                     inv.legal_tip = abs(sum(
                         line.filtered(
-                            lambda t: t.tax_group_id == self.env.ref("l10n_do.tax_group_tip")).mapped('balance')
+                            lambda t: t.tax_group_id == self.env.ref("account.1_tax_group_tip")).mapped('balance')
                     ))
 
                     # TODO: investigate Subject to proportionality and ITBIS carried to cost
@@ -500,4 +500,4 @@ class AccountMove(models.Model):
                     _logger.warning(f"El campo {field_name} no es un campo computado o no está definido correctamente.")
 
         # Llamar a recompute para procesar los campos añadidos
-        self.recompute()
+        self.invalidate_recordset()
