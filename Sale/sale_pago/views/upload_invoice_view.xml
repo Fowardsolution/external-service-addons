@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="upload_invoice_tree_view" model="ir.ui.view">
+        <field name="name">upload.invoice.tree.view</field>
+        <field name="model">upload.invoice</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="expense_type"/>
+                <field name="journal_id"/>
+                <field name="payment_term_id"/>
+                <field name="product_id"/>
+            </tree>
+        </field>
+    </record>
+    
+    <record id="upload_invoice_view" model="ir.ui.view">
+        <field name="name">upload.invoice.view</field>
+        <field name="model">upload.invoice</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="create_invoice_from_file" string="Generar facturas" class="oe_highlight" type="object" attrs="{'invisible': [('id', '=', False)]}"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_invoice"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-pencil-square-o"
+                            attrs="{'invisible': [('invoice_count', '=', 0)]}">
+                            <field name="invoice_count" widget="statinfo" string="Facturas"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="expense_type"/>
+                            <field name="journal_id"/>
+                            <field name="payment_term_id"/>
+                            <field name="product_id"/>
+                        </group>
+                        <group>
+                            <field name="entry_journal_id"/>
+                            <field name="bank_id"/>
+                            <field name="itbis_account_id"/>
+                            <field name="bank_journal_id"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    
+    <record id="upload_invoice_view_action" model="ir.actions.act_window">
+        <field name="name">Cargar facturas</field>
+        <field name="res_model">upload.invoice</field>
+        <field name="view_mode">tree,form</field>
+       <field name="view_id" ref="upload_invoice_tree_view"/>
+    </record>
+    
+    <!-- This Menu Item must have a parent and an action -->
+    <menuitem id="menu_finance_upload_invoice" name="Cargar facturas" parent="account.menu_finance_payables" action="upload_invoice_view_action" sequence="50"/>
+
+</odoo>

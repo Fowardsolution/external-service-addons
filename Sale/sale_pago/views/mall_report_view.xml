@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <menuitem id="account_mall_root_menu" name="Reporte de ventas Agora"
+              parent="account.menu_finance_reports"
+              sequence="999"/>
+
+    <record id="mall_report_tree" model="ir.ui.view">
+        <field name="name">agora.mall.report.tree</field>
+        <field name="model">agora.mall.report</field>
+        <field name="arch" type="xml">
+            <tree string="Reporte de ventas" create="0" edit="0">
+                <field name="id" string="ID"/>
+                <field name="client_number"/>
+                <field name="date"/>
+                <field name="hour"/>
+                <field name="product_total"/>
+                <field name="sale_per_hour"/>
+                <field name="currency_rate"/>
+                <field name="base_total"/>
+                <field name="tax_total"/>
+                <field name="amount_total"/>
+            </tree>
+        </field>
+    </record>
+    
+    <record id="action_mall_report" model="ir.actions.act_window">
+        <field name="name">Reporte de ventas</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">agora.mall.report</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="mall_report_tree"/>
+    </record>
+    
+    <menuitem id="account_mall_report_menu" name="Ventas"
+              parent="account_mall_root_menu"
+              action="action_mall_report"
+              sequence="1"/>
+    
+</odoo>

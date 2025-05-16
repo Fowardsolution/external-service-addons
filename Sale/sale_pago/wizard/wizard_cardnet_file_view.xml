@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="cardnet_load_file_view" model="ir.ui.view">
+        <field name="name">cardnet.load.file.view</field>
+        <field name="model">wizard.cardnet.invoice</field>
+        <field name="arch" type="xml">
+            <form string="Generar facturas desde archivo Cardnet">
+                <group>
+                    <group>
+                        <field name="partner_id"/>
+                        <field name="expense_type"/>
+                        <field name="journal_id"/>
+                        <field name="payment_term_id"/>
+                        <field name="product_id"/>
+                    </group>
+                </group>
+                
+                <group>
+                    <group>
+                        <field name="cardnet_file" col="2"/>
+                    </group>
+                    <group>
+                        <button name="create_invoice_from_file" string="Generar facturas" class="oe_highlight" type="object"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+    
+    <record id="cardnet_load_file_action" model="ir.actions.act_window">
+        <field name="name">Generar facturas desde archivo Cardnet</field>
+        <field name="res_model">wizard.cardnet.invoice</field>
+        <field name="view_mode">tree,form</field>
+       <field name="view_id" ref="cardnet_load_file_view"/>
+       <field name="target">new</field>
+    </record>
+    
+    <record id="account_move_form_inherit" model="ir.ui.view">
+        <field name="name">account.move.form.inherited</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_duplicate']" position="after">
+                <button name="upload_invoice_from_file"
+                        type="object"
+                        attrs="{'invisible': ['|', ('state', '!=', 'draft'), ('type', '!=', 'in_invoice')]}"
+                        string="Cargar facturas CardNet">
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

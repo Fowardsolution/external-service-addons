@@ -1,0 +1,31 @@
+<odoo>
+    <record id="view_sales_payment_report_tree" model="ir.ui.view">
+        <field name="name">sales.payment.report.tree</field>
+        <field name="model">palo.sale.report</field>
+        <field name="arch" type="xml">
+            <tree>
+                <!--Invisible Fields-->
+                <field name="company_id" invisible="1"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="currency_id_signed" invisible="1"/>
+                <!--Visible Fields-->
+                <field name="sale_order_id"/>
+                <field name="partner_id"/>
+                <field name="payment_id" widget="many2many_tags"/>
+                <field name="total_sale" sum="total_sl"/>
+                <field name="total_sale_usd" sum="total_sl_usd"/>
+                <field name="total_payment" sum="total_paid"/>
+                <field name="total_payment_usd" sum="total_paid_usd"/>
+                <field name="difference" sum="total_dif"/>
+                <field name="difference_usd" sum="total_dif_usd"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_sales_payment_report" model="ir.actions.act_window">
+        <field name="name">Reporte de Ventas y Pagos</field>
+        <field name="res_model">palo.sale.report</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <menuitem id="menu_sales_payment_report" name="Reporte de Pagos" parent="sale.sale_menu_root" action="sale_vs_payment_report.action_sales_payment_report"/>
+</odoo>

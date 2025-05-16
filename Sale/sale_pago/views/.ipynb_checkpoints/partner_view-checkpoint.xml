@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id="view_partner_form_inherit" model="ir.ui.view">
+        <field name="name">res.partner.view.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <div class="alert alert-warning oe_edit_only" role="alert" attrs="{'invisible': [('same_phone_partner', '=', False)]}">
+                  Ya existe un contacto con mismo número teléfonico  (<field name="same_phone_partner"/>), esta seguro de crear un nuevo contacto?
+                </div>
+            </xpath>
+        </field>
+    </record>
+    
+</odoo>

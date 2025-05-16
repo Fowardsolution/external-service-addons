@@ -1,0 +1,64 @@
+<odoo>
+    <record id="sale_order_view_form" model="ir.ui.view">
+        <field name="name">sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                <button name="action_view_payments" type="object"
+                        class="oe_stat_button" icon="fa-money">
+                    <field name="payment_count" widget="statinfo" string="Pagos"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+    
+    <record id="sale_view_account_payment_tree" model="ir.ui.view">
+        <field name="name">sale.account.payment.tree</field>
+        <field name="model">account.payment</field>
+        <field name="arch" type="xml">
+            <tree decoration-info="state == 'draft'" decoration-muted="state in ['reconciled', 'cancelled']" edit="false">
+                <field name="name"/>
+                <field name="partner_id" string="Customer"/>
+                <field name="payment_date"/>
+                <field name="journal_id"/>
+                <field name="amount" sum="Amount"/>
+                <field name="payment_method_id" optional="hide"/>
+                <field name="currency_id" optional="hide"/>
+                <field name="partner_type" optional="hide"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    
+    <record id="action_sale_payments_list" model="ir.actions.act_window">
+        <field name="name">Pagos</field>
+        <field name="res_model">account.payment</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{
+            'default_payment_type': 'inbound',
+            'default_partner_type': 'customer',
+            'search_default_inbound_filter': 1,
+            'res_partner_search_mode': 'customer',
+        }</field>
+        <field name="domain">[
+            ('state', 'not in', ['draft', 'cancel']),
+            ('partner_type', '=', 'customer'),
+            ('payment_type', '=', 'inbound')]
+        </field>
+        <field name="view_id" ref="sale_view_account_payment_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+              Registrar un pago
+            </p>
+        </field>
+    </record>
+    
+    <menuitem id="menu_sale_payments"
+            name="Pagos"
+            parent="sale.sale_order_menu"
+            sequence="7"
+            action="action_sale_payments_list"/>
+    
+</odoo>

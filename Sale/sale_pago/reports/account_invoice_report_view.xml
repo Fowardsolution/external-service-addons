@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_account_invoice_report_pivot_inherit" model="ir.ui.view">
+            <field name="name">account.invoice.report.pivot</field>
+            <field name="model">account.invoice.report</field>
+            <field name="inherit_id" ref="account.view_account_invoice_report_pivot"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_categ_id']" position="after">
+                    <field name="product_standard_price" type="row"/>
+                </xpath>
+            </field>
+        </record>
+    
+        <record id="view_account_invoice_report_graph_inherit" model="ir.ui.view">
+             <field name="name">account.invoice.report.graph</field>
+             <field name="model">account.invoice.report</field>
+            <field name="inherit_id" ref="account.view_account_invoice_report_graph"/>
+             <field name="arch" type="xml">
+                 <xpath expr="//field[@name='product_categ_id']" position="after">
+                    <field name="product_standard_price"/>
+                </xpath>
+             </field>
+        </record>
+    
+    </data>
+</odoo>

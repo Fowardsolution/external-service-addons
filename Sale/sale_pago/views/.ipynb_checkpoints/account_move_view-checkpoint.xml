@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_move_form" model="ir.ui.view">
+        <field name="name">account.move.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <field name="journal_id" position="after">
+                <field name="product_cost_total" invisible="1"/>
+                <field name="margin_total" invisible="1"/>
+                <field name="product_qty" invisible="1"/>
+            </field>
+        </field>
+    </record>
+    
+    <record id="view_invoice_tree" model="ir.ui.view">
+        <field name="name">account.move.tree</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='amount_residual_signed']" position="after">
+                <field name="product_cost_total" string="Costo" sum="Costo" optional="show"/>
+                <field name="margin_total" string="Margen" sum="Margen" optional="show"/>
+                <field name="product_qty" string="Ctd Productos" sum="Productos" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
