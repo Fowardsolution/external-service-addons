@@ -124,8 +124,7 @@ class SalesPaymentReport(models.Model):
                 sale_orders.append(sale_order_id)
 
     @api.model
-    def search(self, args, offset=0, limit=None, order=None, count=False):
-        if not self.env.context.get("skip_generate_report"):
-            self = self.with_context(skip_generate_report=True)  # Evita llamadas recursivas
-            self._generate_report()
-        return super(SalesPaymentReport, self).search(args, offset, limit, order, count)
+    def read(self, fields=None, load='_classic_read'):
+        res = super(SalesPaymentReport, self).read(fields, load)
+        self._generate_report()
+        return res
