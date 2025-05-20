@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='payment_method_code']" position="after">
                 <field name="sale_id" domain="[('partner_id', '=', partner_id),('state','in', ['sale', 'done'])]"
-                       attrs="{'invisible': [('payment_type', '!=', 'inbound')]}"/>
+                       invisible="payment_type != 'inbound'"/>
             </xpath>
         </field>
     </record>
