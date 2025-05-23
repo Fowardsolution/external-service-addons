@@ -5,9 +5,9 @@
         <field name="arch" type="xml">
             <tree>
                 <!--Invisible Fields-->
-                <field name="company_id" invisible="1"/>
-                <field name="currency_id" invisible="1"/>
-                <field name="currency_id_signed" invisible="1"/>
+                <field name="company_id" column_invisible="1"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="currency_id_signed" column_invisible="1"/>
                 <!--Visible Fields-->
                 <field name="sale_order_id"/>
                 <field name="partner_id"/>

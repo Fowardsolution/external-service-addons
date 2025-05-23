@@ -2,7 +2,7 @@
 {
     "name": "SALE - PAGOS",
     "summary": "Add some useful features",
-    "version": "17.0.0.0.1",
+    "version": "17.0.0.0.2",
     "category": "Extra",
     'author': 'ISIAS MATEO <isias1626@gmail.com>, Jean Carlos Rodriguez <jrodriguez@fowardsolution.com.do>',
     'external_dependencies': {

@@ -10,6 +10,9 @@
                     <field name="payment_count" widget="statinfo" string="Pagos"/>
                 </button>
             </xpath>
+            <xpath expr="//field[@name='source_id']" position="after">
+                <field name="payment_ids"/>
+            </xpath>
         </field>
     </record>
     

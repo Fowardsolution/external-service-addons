@@ -1,5 +1,7 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
+import logging
+_logger = logging.getLogger(__name__)
 
 
 class Sale(models.Model):
@@ -10,14 +12,19 @@ class Sale(models.Model):
         compute='_compute_payment_ids',
     )
 
+    payment_ids = fields.Many2many('account.payment', compute="_compute_payment_ids")
+
     @api.depends('name')
     def _compute_payment_ids(self):
         for order in self:
-            payments = self.env['account.payment'].search_count([
+            payments = self.env['account.payment'].search([('sale_id', '=', order.id), ('state', 'not in', ['draft', 'cancel'])])
+            payments_count = self.env['account.payment'].search_count([
                 ('sale_id', '=', order.id),
                 ('state', 'not in', ['draft', 'cancel'])
             ])
-            order.payment_count = payments
+            order.payment_ids = payments
+            _logger.error(("PROBANDO", payments))
+            order.payment_count = payments_count
 
     def action_view_payments(self):
         return {
