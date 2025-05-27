@@ -9,6 +9,7 @@ class SalesPaymentReport(models.Model):
     _name = 'palo.sale.report'
     _rec_name = 'sale_order_id'
     _description = 'Reporte Pagos y Ventas'
+    _already_generated = False
 
     active = fields.Boolean(default=True, string="Activo")
     sale_order_id = fields.Many2one('sale.order', string='No. Venta')
@@ -124,7 +125,8 @@ class SalesPaymentReport(models.Model):
                 sale_orders.append(sale_order_id)
 
     @api.model
-    def read(self, fields=None, load='_classic_read'):
-        res = super(SalesPaymentReport, self).read(fields, load)
+    def web_search_read(self, domain, specification, offset=0, limit=None, order=None, count_limit=None):
         self._generate_report()
-        return res
+        SalesPaymentReport._already_generated = True  # Evita que se llame múltiples veces
+        return super().web_search_read(domain=domain, specification=specification, offset=offset, limit=limit,
+                                       order=order, count_limit=count_limit)
