@@ -12,7 +12,7 @@
 
     'author': "Foward Solution: Isias Mateo",
     'category': 'Accounting',
-    'version': '15.0.0.0.3',
+    'version': '17.0.0.0.1',
 
     # any module necessary for this one to work correctly
     'depends': ['base'],
