@@ -10,19 +10,22 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
-
 class ResCurrency(models.Model):
+    _inherit = 'res.currency'
+
+    increment_rate = fields.Float()
+
+
+class ResCurrencyUpdate(models.Model):
     _name = 'res.currency.update'
 
     def update_currency_rate(self):
         company_id = self.env['res.company'].search([])
-        _logger.error(("PROBANDO", company_id.ids))
         url = 'https://www.infodolar.com.do/precio-dolar-entidad-banco-popular.aspx'
         # if currency_eur:
         #     url = 'https://www.infodolar.com.do/precio-euro-entidad-banco-popular.aspx'
         current_company = self.env.company
         current_currency = current_company.currency_id
-        _logger.error(("COMPANIS", current_company))
         response = requests.get(url)
 
         # Verificar que la solicitud fue exitosa
@@ -52,15 +55,15 @@ class ResCurrency(models.Model):
                                 ahora_utc = datetime.now(pytz.utc)
                                 hora_santo_domingo = ahora_utc.astimezone(tz).date()
                                 currency_usd = rec.env['res.currency'].search([('name', '=', 'USD')])
-                                _logger.error(("COMASDA ID", rec.id))
                                 date_rate = rec.env['res.currency.rate'].search(
                                     [('name', '=', hora_santo_domingo), ('company_id', '=', rec.id)])
+                                _logger.error(("VALUE", currency_usd.increment_rate))
 
                                 if not date_rate:
                                     date_rate.sudo().create({
                                         'name': fields.Date.today(),
                                         'company_id': rec.id,
-                                        'inverse_company_rate': sell_value,
+                                        'inverse_company_rate': float(sell_value) + currency_usd.increment_rate,
                                         'currency_id': currency_usd.id,
                                     })
 
