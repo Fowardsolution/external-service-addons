@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherit the user form to add warehouse restrictions -->
+        <record id="view_users_form_restrict_warehouse" model="ir.ui.view">
+            <field name="name">res.users.form.restrict.warehouse</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <!-- Insert before messaging group -->
+                <xpath expr="//group[@name='messaging']" position="before">
+                    <group string="Restricciones de almacén" modifiers="{'invisible': [('login','=','admin')]}">
+                        <field name="default_picking_type_ids" widget="many2many_tags"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Inherit the user form to add location security toggles -->
+        <record id="view_users_form_location_security" model="ir.ui.view">
+            <field name="name">res.users.form.location.security</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <!-- Insert restrict_locations checkbox before messaging -->
+                <xpath expr="//group[@name='messaging']" position="before">
+                    <group string="Ubicación" modifiers="{'invisible': [('login','=','admin')]}">
+                        <field name="restrict_locations"/>
+                    </group>
+                </xpath>
+                <!-- Add a notebook page for allowed stock locations -->
+                <xpath expr="//notebook" position="inside">
+                    <page string="Ubicaciones de stock permitidas" modifiers="{'invisible': [('restrict_locations','!=', True)]}">
+                        <field name="stock_location_ids" widget="many2many_tags" nolabel="1"/>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
