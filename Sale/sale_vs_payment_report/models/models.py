@@ -13,6 +13,8 @@ class SalesPaymentReport(models.Model):
 
     active = fields.Boolean(default=True, string="Activo")
     sale_order_id = fields.Many2one('sale.order', string='No. Venta')
+    move_id = fields.Many2many('account.move', string='No. Factura')
+    date_order = fields.Date(string="Fecha Orden")
     payment_id = fields.Many2many('account.payment', string='No. Pago')
     company_id = fields.Many2one('res.company', store=True, copy=False,
                                  string="Company",
@@ -23,6 +25,7 @@ class SalesPaymentReport(models.Model):
                                       self: self.env.user.company_id.currency_id.id)
     currency_id_signed = fields.Many2one('res.currency', string="Currency Signed", compute="_currency_compute")
     partner_id = fields.Many2one('res.partner', string="Cliente")
+    customer_ref = fields.Char(string="Referencia Cliente")
     total_sale = fields.Monetary(string="Total Venta")
     total_sale_usd = fields.Monetary(string="Total Venta USD", currency_field='currency_id_signed')
     total_payment = fields.Monetary(string='Total Pago')
@@ -30,6 +33,7 @@ class SalesPaymentReport(models.Model):
     difference = fields.Monetary(string='Diferencia Total', compute="_total_difference")
     difference_usd = fields.Monetary(string='Diferencia USD', compute="_total_difference",
                                      currency_field='currency_id_signed')
+    
 
     @api.depends('total_sale', 'total_payment')
     def _total_difference(self):
@@ -51,15 +55,18 @@ class SalesPaymentReport(models.Model):
     @api.model
     def _generate_report(self):
         # Borra registros anteriores
+        self.env['palo.sale.report'].search([]).unlink()
         company_id = self.env.company.id
         company_id2 = self.env.company
         currency_id = self.env.user.company_id.currency_id
         currency_usd = self.env['res.currency'].search([('name', '=', 'USD')], limit=1)
 
         # Consulta para obtener el ID de las órdenes de venta y los pagos asociados
+
         self.env.cr.execute(f"""
             SELECT so.id as sale_order_id, 
                    ap.id as payment_id,
+                   am.id AS move_id,
                    so.currency_id as currency,
                    so.date_order as fecha,
                    ap.currency_id as pay_currency,
@@ -69,10 +76,10 @@ class SalesPaymentReport(models.Model):
                    sum(ap.amount) as pay_total
             FROM sale_order so
             LEFT JOIN account_payment ap ON so.id = ap.sale_id
-            LEFT JOIN account_move am ON ap.move_id = am.id
+            LEFT JOIN account_move am ON ap.move_id = am.id 
             WHERE so.company_id = {company_id} 
             AND so.state in ('sent', 'sale', 'done')
-            GROUP BY so.id, ap.id, am.date, am.state
+            GROUP BY so.id, ap.id, am.id, am.date, am.state
         """)
 
         query_results = self.env.cr.dictfetchall()
@@ -84,6 +91,7 @@ class SalesPaymentReport(models.Model):
         for result in query_results:
             sale_order = self.env['sale.order'].browse(result['sale_order_id'])
             sale_order_id = result['sale_order_id']
+            # move_id = result['am']
             payment_id = self.env['account.payment'].browse(result['payment_id'])
             payment_ids = [payment['payment_id'] for payment in query_results if
                            payment['sale_order_id'] == sale_order_id and payment['state_pago'] == 'posted']
@@ -105,12 +113,18 @@ class SalesPaymentReport(models.Model):
                                                                 result['fecha_pago'])
             if total_payment_usd is not None:
                 total_payment_usd = currency_id._convert(total_payment_usd, currency_id, company_id2, result['fecha'])
+            invoices = sale_order.invoice_ids.filtered(lambda m: m.state == 'posted')
+            move = invoices[:1]
 
             if sale_order_id not in sale_orders:
                 account_payments.append(payment_id.id)  # Agregar el ID del pago actual a la lista
                 create_lines = self.create({
                     'sale_order_id': sale_order_id,
+                    'date_order': sale_order.date_order,
+                    'customer_ref': sale_order.client_order_ref,
                     'payment_id': [(6, 0, payment_ids)] if payment_id else None,
+                    # 'move_id': [(6, 0, move.id)] if move else None,
+                    'move_id': [(6, 0, sale_order.invoice_ids.filtered(lambda m: m.state == 'posted').ids)],
                     'partner_id': sale_order.partner_id.id,
                     'total_sale': result[
                         'amount_total'] if sale_order.currency_id == currency_id else sale_order.currency_id._convert(

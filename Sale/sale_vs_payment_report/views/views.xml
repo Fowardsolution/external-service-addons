@@ -10,8 +10,11 @@
                 <field name="currency_id_signed" column_invisible="1"/>
                 <!--Visible Fields-->
                 <field name="sale_order_id"/>
+                <field name="move_id" widget="many2many_tags"/>
                 <field name="partner_id"/>
+                <field name="customer_ref"/>
                 <field name="payment_id" widget="many2many_tags"/>
+                <field name="date_order"/>
                 <field name="total_sale" sum="total_sl"/>
                 <field name="total_sale_usd" sum="total_sl_usd"/>
                 <field name="total_payment" sum="total_paid"/>
