@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="view_picking_form">
+      <field name="name">view_picking_form</field>
+      <field name="model">stock.picking</field>
+      <field name="inherit_id" ref="stock.view_picking_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//button[@name='do_print_picking']" position="after">
+          <field name="is_landed" invisible="1"/>
+          <button type="object"
+                  name="action_create_landed_cost"
+                  icon="fa-truck"
+                  modifiers="{'invisible': ['|', ('picking_type_code', '!=', 'incoming'), ('is_landed', '=', False)]}"/>
+        </xpath>
+      </field>
+    </record>
+ </data>
+</odoo>

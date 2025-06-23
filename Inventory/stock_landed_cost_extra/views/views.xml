@@ -1,0 +1,162 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="view_stock_landed_cost_form">
+      <field name="name">view_stock_landed_cost_form</field>
+      <field name="model">stock.landed.cost</field>
+      <field name="inherit_id" ref="stock_landed_costs.view_stock_landed_cost_form"/>
+      <field name="arch" type="xml">
+
+        <xpath expr="//div[@name='button_box']" position="inside">
+          <button type="object"
+                  name="action_open_pickings"
+                  class="oe_stat_button" icon="fa-truck"
+                  modifiers="{'invisible': [('picking_count', '=', 0)]}">
+              <field name="picking_count" string="Transf. Internas" widget="statinfo"/>
+            </button>
+        </xpath>
+
+        <xpath expr="//field[@name='picking_ids']" position="after">
+            <field name="purchase_ids" widget="many2many_tags"/>
+            <field name="manifest"/>
+            <field name="ref"/>
+            <field name="contenedor"/>
+            <field name="naviera"/>
+            <button name="load_purchases" colspan="2" string="Cargar las Ordenes de Compras"
+                    type="object" modifiers="draft" class="btn-link oe_edit_only" />
+            <button name="get_product" colspan="2" string="Cargar Productos"
+                    type="object" modifiers="draft" class="btn-link oe_edit_only" />
+        </xpath>
+
+        <xpath expr="//field[@name='vendor_bill_id']" position="replace">
+          <field name="vendor_bill_id" invisible="1"/>
+          <field name="vendor_bill_ids" widget="many2many_tags"/>
+
+          <button name="load_invoices" colspan="2" type="object" string="Cargar Facturas"/>
+        </xpath>
+
+        <xpath expr="//field[@name='account_journal_id']" position="after">
+          <label for="location_id" modifiers="{'invisible': [('state', '!=', 'done')]}"/>
+          <div class="o_row " modifiers="{'invisible': [('state', '!=', 'done')]}">
+            <field name="location_id" domain="[('usage', '=', 'internal')]"/>
+            <button name="move_product_to_location"
+                    modifiers="{'invisible': [('picking_count', '>', 0)]}"
+                    title="Mover Productos" arial-label="Mover Productos" type="object" class="btn-lg btn-link mb4 fa fa-truck" />
+          </div>
+        </xpath>
+
+        <xpath expr="//field[@name='cost_lines']/tree/field[@name='product_id']" position="after">
+            <field name="arancel_product_id" invisible="1"/>
+            <field name="move_id" invisible="1"/>
+            <field name="account_move_id" invisible="1"/>
+        </xpath>
+          
+        <xpath expr="//sheet/notebook/page[1]" position="after">
+            <page string="Productos Exentos">
+                <button
+                    name="%(action_remove_cost_lines)d"
+                    class="btn-lg btn-secundary oe_right"
+                    string="Remover Costes"
+                    icon="fa-trash"
+                    type="action"
+                    modifiers="{'invisible':[('state','not in', ['draft'])]}"/>
+
+                <field name="no_cost_lines">
+                  <tree editable="bottom" create="0">
+                      <field name="picking_id"/>
+                      <field name="cost_id" invisible="1"/>
+                      <field name="cost_line_id" />
+                      <field name="product_list_id" />
+                  </tree>
+                </field>
+            </page>
+        </xpath>
+
+        <xpath expr="//sheet/notebook/page[1]" position="before">
+            <page string='Listado de Productos'>
+                <field name="product_list_ids" >
+                  <tree editable="top">
+                      <field name="cost_id" invisible="1"/>
+                      <field name="picking_id"/>
+                      <field name="name" invisible="1"/>
+                      <field name="product_id" readonly="1"/>
+                      <field name="arancel"/>
+                      <field name="move_id" invisible="1"/>
+                  </tree>
+                </field>
+                <group class="oe_subtotal_footer oe_right">
+                  <field name="arancel_total"/>
+                  <button colspan="2" name="set_aranceles" class="oe_right btn-secondary" icon="fa-level-up" modifiers="draft" string="Cargar Arancel" type="object"/>
+                </group>
+            </page>
+
+            <page name="purchase_info" string="Ordenes de Compras">
+                <field name="purchase_info_line_ids" readonly="1">
+                    <tree>
+                        <field name="picking_id"/>
+                        <field name="purchase_id"/>
+                        <field name="partner_id"/>
+                        <field name="qty_received"/>
+                        <field name="ordered_qty"/>
+                        <field name="amount_total" sum="Total"/>
+                    </tree>
+                    <form>
+                        <group>
+                            <group>
+                                <field name="picking_id"/>
+                                <field name="purchase_id"/>
+                                <field name="partner_id"/>
+                            </group>
+                            <group>
+                                <field name="qty_received"/>
+                                <field name="ordered_qty"/>
+                                <field name="amount_total"/>
+                            </group>
+                        </group>
+                    </form>
+                </field>
+            </page>
+
+            <page name="invoices" string="Facturas Relacionadas">
+                <field name="vendor_invoice_line" readonly="1">
+                    <tree create="0">
+                        <field name="name"/>
+                        <field name="partner_id" string="Suplidor"/>
+                        <field name="amount_total" sum="Total"/>
+                        <field name="state" invisible="1"/>
+                    </tree>
+                </field>
+            </page>
+        </xpath>
+
+        <xpath expr="//sheet/notebook" position="inside">
+            <page string='Resumen Ajuste de Valoracion'>
+                <field name="cost_summary_ids" readonly='1'>
+                  <tree>
+                      <field name="cost_id" invisible="1"/>
+                      <field name="product_id"/>
+                      <field name="quantity"/>
+                      <field name="former_cost"/>
+                      <field name="additional_cost"/>
+                      <field name="final_cost"/>
+                      <!--<field name="porcent_increment"/>-->
+                      <field name="cost_unit"/>
+                  </tree>
+                </field>
+            </page>
+        </xpath>
+      </field>
+    </record>
+
+    <record id="action_report_landed_cost_xlsx" model="ir.actions.report">
+        <field name="name">Informe liquidación(XLSX)</field>
+        <field name="model">stock.landed.cost</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">stock_landed_cost_extra.report_landed_cost_xlsx</field>
+        <field name="report_file">CostesEnDestino</field>
+        <field name="binding_model_id" ref="stock_landed_cost_extra.model_stock_landed_cost"/>
+        <field name="binding_type">report</field>
+        <field name="attachment_use" eval="False"/>
+    </record>
+
+  </data>
+</odoo>

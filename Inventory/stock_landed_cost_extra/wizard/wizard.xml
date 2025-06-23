@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <record id="remove_view_form" model="ir.ui.view">
+        <field name="name">remove_view_form</field>
+        <field name="model">wizard.cost.list.remove</field>
+        <field name="arch" type="xml">
+            <form>
+              <div class="alert alert-light" role="alert">
+                  <p>Selecciona un Conduce y los Costos/Gastos Adicionales que le quieras remover a dicho conduce para la liquidacion.</p>
+              </div>
+
+              <group>
+                  <field name="picking_id" required="1"/>
+
+              </group>
+
+              <notebook>
+                <page string="Costes Adicionales a Remover">
+                  <field name="cost_line_id" option="{'create': 0, 'no_create_edit': 1}"/>
+                </page>
+              </notebook>
+
+              <footer>
+                  <button name="action_remove_cost_line" class="btn-primary" type="object" string="Ejecutar"/>
+                  <button special="cancel" string="Cancelar" class="btn-default"/>
+              </footer>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_remove_cost_lines">
+      <field name="name">Remover Lineas de Costo</field>
+      <field name="res_model">wizard.cost.list.remove</field>
+      <field name="view_mode">form</field>
+      <field name="target">new</field>
+    </record>
+  </data>
+</odoo>
