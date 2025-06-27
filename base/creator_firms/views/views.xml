@@ -1,0 +1,68 @@
+<odoo>
+  <data>
+      <record id="creator_firms_view_tree" model="ir.ui.view">
+          <field name="name">creator_firms_view_tree</field>
+          <field name="model">creator_firms.creator_firms</field>
+          <field name="arch" type="xml">
+              <tree string="creator_tree">
+                  <field name="model_ids"/>
+                  <field name="view_ids"/>
+                  <field name="view_type"/>
+                  <field name="report_ids"/>
+                  <field name="position"/>
+                  <field name="xpath"/>
+                  <field name="firm_ids" invisible="1"/>
+                  <field name="view_generated" invisible="1"/>
+                  <field name="model_data_generated" invisible="1"/>
+              </tree>
+          </field>
+      </record>
+      <record id="creator_firms_view_form" model="ir.ui.view">
+         <field name="name">creator_firms_view_form</field>
+         <field name="model">creator_firms.creator_firms</field>
+         <field name="arch" type="xml">
+             <form string="creator_form">
+                 <header>
+                     <button name="create_model_data" type="object" string="Create View"/>
+                 </header>
+                 <sheet>
+                     <group>
+                         <field name="model_ids"/>
+                         <field name="report_ids"/>
+                         <field name="view_type"/>
+                         <field name="view_ids" attrs="{'readonly':[('view_generated','=','')]}"/>
+                         <field name="view_generated" readonly="1"/>
+                         <field name="model_data_generated" readonly="1"/>
+                     </group>
+                     <group>
+                         <field name="position"/>
+                         <field name="xpath"/>
+                     </group>
+                     <group>
+                         <notebook>
+                             <page string="Firms">
+                                 <field name="firm_ids">
+                                     <tree editable="bottom">
+                                         <field name="firms"/>
+                                         <field name="creator_id" invisible="1"/>
+                                     </tree>
+                                 </field>
+                             </page>
+                         </notebook>
+                     </group>
+
+                 </sheet>
+             </form>
+         </field>
+      </record>
+      <record id="creator_firms_action" model="ir.actions.act_window">
+          <field name="name">creator_firms_action</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">creator_firms.creator_firms</field>
+          <field name="view_mode">tree,form</field>
+      </record>
+
+        <menuitem id="creator_firms_root" name="Creator"/>
+        <menuitem id="creator_menu" name="Creator XPATH" parent="base.menu_administration" action="creator_firms_action"/>
+  </data>
+</odoo>
