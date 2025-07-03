@@ -1,4 +1,14 @@
 <odoo>
+    <record id="view_sale_palo_search" model="ir.ui.view">
+        <field name="name">sale.palo.search</field>
+        <field name="model">palo.sale.report</field> <!-- modelo relacionado -->
+        <field name="arch" type="xml">
+            <search string="Buscar órdenes de venta">
+                <field name="sale_order_id"/>
+                <field name="op_unit_sale"/>
+            </search>
+        </field>
+    </record>
     <record id="view_sales_payment_report_tree" model="ir.ui.view">
         <field name="name">sales.payment.report.tree</field>
         <field name="model">palo.sale.report</field>
@@ -8,6 +18,7 @@
                 <field name="company_id" column_invisible="1"/>
                 <field name="currency_id" column_invisible="1"/>
                 <field name="currency_id_signed" column_invisible="1"/>
+                <field name="op_unit_sale" column_invisible="1"/>
                 <!--Visible Fields-->
                 <field name="sale_order_id"/>
                 <field name="move_id" widget="many2many_tags"/>

@@ -20,7 +20,7 @@
     'version': '17.0.0.0.8',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'sale', 'sale_pago', 'account'],
+    'depends': ['base', 'sale', 'sale_pago', 'account', 'operating_unit'],
 
     # always loaded
     'data': [

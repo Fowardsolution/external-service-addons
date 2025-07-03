@@ -26,13 +26,14 @@ class SalesPaymentReport(models.Model):
     currency_id_signed = fields.Many2one('res.currency', string="Currency Signed", compute="_currency_compute")
     partner_id = fields.Many2one('res.partner', string="Cliente")
     customer_ref = fields.Char(string="Referencia Cliente")
-    total_sale = fields.Monetary(string="Total Venta")
-    total_sale_usd = fields.Monetary(string="Total Venta USD", currency_field='currency_id_signed')
+    total_sale = fields.Monetary(string="Total Pedido")
+    total_sale_usd = fields.Monetary(string="Total Pedido USD", currency_field='currency_id_signed')
     total_payment = fields.Monetary(string='Total Pago')
     total_payment_usd = fields.Monetary(string='Total Pago USD', currency_field='currency_id_signed')
     difference = fields.Monetary(string='Diferencia Total', compute="_total_difference")
     difference_usd = fields.Monetary(string='Diferencia USD', compute="_total_difference",
                                      currency_field='currency_id_signed')
+    op_unit_sale = fields.Many2one('operating.unit', related="sale_order_id.operating_unit_id", store=True)
     
 
     @api.depends('total_sale', 'total_payment')
