@@ -6,9 +6,9 @@
           <field name="arch" type="xml">
               <tree string="creator_tree">
                   <field name="model_ids"/>
-                  <field name="view_ids"/>
+                  <field name="view_id"/>
                   <field name="view_type"/>
-                  <field name="report_ids"/>
+                  <!-- <field name="report_ids"/> -->
                   <field name="position"/>
                   <field name="xpath"/>
                   <field name="firm_ids" invisible="1"/>
@@ -28,9 +28,9 @@
                  <sheet>
                      <group>
                          <field name="model_ids"/>
-                         <field name="report_ids"/>
+                         <field name="custom_domain" invisible="1"/>
+                         <field name="view_id" domain="eval(custom_domain)"/>
                          <field name="view_type"/>
-                         <field name="view_ids" attrs="{'readonly':[('view_generated','=','')]}"/>
                          <field name="view_generated" readonly="1"/>
                          <field name="model_data_generated" readonly="1"/>
                      </group>
@@ -38,19 +38,16 @@
                          <field name="position"/>
                          <field name="xpath"/>
                      </group>
-                     <group>
-                         <notebook>
-                             <page string="Firms">
-                                 <field name="firm_ids">
-                                     <tree editable="bottom">
-                                         <field name="firms"/>
-                                         <field name="creator_id" invisible="1"/>
-                                     </tree>
-                                 </field>
-                             </page>
-                         </notebook>
-                     </group>
-
+                     <notebook>
+                         <page string="Firms">
+                             <field name="firm_ids">
+                                 <tree editable="bottom">
+                                     <field name="firms"/>
+                                     <field name="creator_id" invisible="1"/>
+                                 </tree>
+                             </field>
+                         </page>
+                     </notebook>
                  </sheet>
              </form>
          </field>
