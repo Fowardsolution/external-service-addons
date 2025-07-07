@@ -77,18 +77,25 @@ class creator_firms(models.Model):
         <data inherit_id="{self.view_ids.xml_id}">
         <xpath expr="{self.xpath}" position="{self.position}">
             <div t-attf-class="footer text-center">
+                <style type="text/css">
+                    .no-borders *, .no-borders td, .no-borders tr, .no-borders table {{
+                      border: none !important;
+                    }}
+                </style>
               <center>
               <div class="last-page">
-               <table class="text-center" style="border:none !important;">
+               <table class="no-borders" style="border: none; border-collapse: collapse; width: 100%;">
                 <tr style="border:none !important;">
-                    <span t-foreach="{firm_list}" t-as="i">
-                <td style="border:none !important;padding-right:10px;">___________________________________________</td>
-                    </span>
+                    <t t-foreach="{firm_list}" t-as="i">
+                        <td style="border:none !important;padding-right:10px;">___________________________________________</td>
+                    </t>
                 </tr>
-                <tr class='text-center' style="border:none !important;">
-                    <span t-foreach="{firm_list}" t-as="i"><td style="border:none !important;">
-                    <t t-esc="i"/></td>
-                    </span>
+                <tr style="border:none !important;">
+                    <t t-foreach="{firm_list}" t-as="i">
+                        <td style="border:none; text-align: center;">
+                            <t t-esc="i"/>
+                        </td>
+                    </t>
                     </tr>
                 </table>
               </div>
