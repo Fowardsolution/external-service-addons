@@ -6,7 +6,7 @@
           <field name="arch" type="xml">
               <tree string="creator_tree">
                   <field name="model_ids"/>
-                  <field name="view_id"/>
+                  <field name="view_ids"/>
                   <field name="view_type"/>
                   <!-- <field name="report_ids"/> -->
                   <field name="position"/>
@@ -29,7 +29,7 @@
                      <group>
                          <field name="model_ids"/>
                          <field name="custom_domain" invisible="1"/>
-                         <field name="view_id" domain="eval(custom_domain)"/>
+                         <field name="view_ids" domain="custom_domain"/>
                          <field name="view_type"/>
                          <field name="view_generated" readonly="1"/>
                          <field name="model_data_generated" readonly="1"/>

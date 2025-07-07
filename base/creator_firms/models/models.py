@@ -13,11 +13,9 @@ class creator_firms(models.Model):
     _description = 'creator_firms.creator_firms'
 
     model_ids = fields.Many2one('ir.model')
-    view_id = fields.Many2one('ir.ui.view') #domain="[('type', '=', 'qweb')]")
+    view_ids = fields.Many2one('ir.ui.view') #domain="[('type', '=', 'qweb')]")
     view_generated = fields.Many2one('ir.ui.view')
     model_data_generated = fields.Many2one('ir.model.data')
-    # report_ids = fields.Many2one('ir.actions.report')
-    # report_ids = fields.Many2one('ir.ui.view')
     xpath = fields.Char()
     firm_ids = fields.One2many('creator.firms.line', 'creator_id')
     position = fields.Selection(
@@ -32,27 +30,7 @@ class creator_firms(models.Model):
             ('qweb', 'QWEB'),
         ],required=False, )
     custom_domain = fields.Char(compute="_compute_model_id")
-        # compute="_compute_model_id")
 
-    # @api.depends('model_ids')
-    # def _compute_model_id(self):
-    #     for rec in self:
-    #         index_model = rec.model_ids.model
-    #         model = rec.model_ids.model
-    #         _logger.error(("MODELO", model))
-    #         # self.model_ids.model = str(self.model_ids.model).index(".")
-    #         if index_model != False:
-    #             index_model = str(index_model).index(".")
-    #             model = str(model).lstrip(".")[0:index_model]
-            # if rec.model_ids:
-            #     rec.custom_domain = [('type', '=', 'qweb')]
-            #     _logger.error(("ESTOY DENTRO"))
-            #     # rec.custom_domain = [('model_data_id.module', '=', model)]
-            #     # rec.custom_domain = ['&',('model_data_id.module', '=', model),('type', '=', 'qweb')]
-            #     _logger.error(("ESTOY DENTRO", rec.custom_domain))
-            # else:
-            #     _logger.error(("ESTOY FUERA"))
-            #     rec.custom_domain = [('type', '=', 'qweb')]
     @api.depends('model_ids')
     def _compute_model_id(self):
         for rec in self:
@@ -69,7 +47,6 @@ class creator_firms(models.Model):
                 ])
                 view_ids = view_data.mapped('res_id')
                 rec.custom_domain = json.dumps([('id', 'in', view_ids)])
-                _logger.info("📌 Dominio generado: %s", rec.custom_domain)
         
 
     def unlink(self):
