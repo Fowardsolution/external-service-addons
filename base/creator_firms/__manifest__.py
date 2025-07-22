@@ -8,7 +8,7 @@
     """,
     'author': "isias1626@gmail.com",
     'category': 'Application',
-    'version': '17.0.0.0.1',
+    'version': '17.0.0.0.2',
     'depends': ['base', 'report_qweb_element_page_visibility'],
     'data': [
         'security/ir.model.access.csv',

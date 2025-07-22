@@ -87,7 +87,7 @@ class creator_firms(models.Model):
                <table class="no-borders" style="border: none; border-collapse: collapse; width: 100%;">
                 <tr style="border:none !important;">
                     <t t-foreach="{firm_list}" t-as="i">
-                        <td style="border:none !important;padding-right:10px;">___________________________________________</td>
+                        <td style="border:none !important;padding-right:10px;text-align: center;">___________________________________________</td>
                     </t>
                 </tr>
                 <tr style="border:none !important;">
