@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="l10n_do_accounting.res_config_settings_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//div[@id='l10n_do_title']" position="attributes">
-                <attribute name="attrs">{'invisible': False}</attribute>
+                <attribute name="invisible">0</attribute>
             </xpath>
             <xpath expr="//div[@id='l10n_do_section']" position="inside">
                 <div class="col-12 col-lg-6 o_setting_box">
